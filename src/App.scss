@@ -1,0 +1,43 @@
+body {
+	background: rgb(17, 80, 108);
+	color: white;
+	font-family: sans-serif;
+}
+
+.App {
+	text-align: center;
+}
+
+.control {
+	background: rgba(18, 18, 18, 0.6);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 1.5rem;
+	border-radius: 2.5rem;
+
+	h3 {
+		width: 100%;
+		text-align: center;
+	}
+	input {
+		width: 25rem;
+	}
+	button {
+		font-size: 1.5rem;
+		padding: 0.5rem 1.5rem;
+		margin: 0.5rem;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		border-radius: 3rem;
+		width: 10rem;
+		&:hover {
+			background-color: rgb(169, 73, 210);
+		}
+	}
+	.active {
+		background-color: rgb(78, 19, 103);
+		color: white;
+	}
+}
