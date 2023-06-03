@@ -1,5 +1,5 @@
 export default class Osc {
-	constructor(actx, type, freq, detune, envelope, connection) {
+	constructor(actx, type, freq, detune, envelope, gain, connection) {
 		this.actx = actx;
 		this.envelope = envelope || {
 			attack: 0.005,
@@ -14,7 +14,10 @@ export default class Osc {
 		this.gateGain = actx.createGain();
 		this.gateGain.gain.value = 0;
 		this.osc.connect(this.gateGain);
-		this.gateGain.connect(connection);
+		this.oscGain = actx.createGain();
+		this.oscGain.gain.value = gain;
+		this.gateGain.connect(this.oscGain);
+		this.oscGain.connect(connection);
 		this.easing = 0.005;
 		this.osc.start();
 		this.start();
@@ -35,7 +38,11 @@ export default class Osc {
 	stop() {
 		let {currentTime} = this.actx;
 		this.gateGain.gain.cancelScheduledValues(currentTime);
-		this.gateGain.gain.setTargetAtTime(0, currentTime, this.envelope.release + this.easing);
+		this.gateGain.gain.setTargetAtTime(
+			0,
+			currentTime,
+			this.envelope.release + this.easing + 0.07
+		);
 		setTimeout(() => {
 			this.osc.disconnect();
 		}, 10000);

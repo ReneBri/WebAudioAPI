@@ -1,27 +1,30 @@
 import {useContext} from "react";
 import {CTX} from "../context/Store";
 
-const Osc1 = () => {
+const Osc1 = ({title, oscSettings, changeOscSettings, changeOscType}) => {
 	const [appState, updateState] = useContext(CTX);
 
-	let {type, detune} = appState.osc1Settings;
-
-	const changeSettings = (e) => {
-		let {id, value} = e.target;
-		updateState({type: "CHANGE_OSC1", payload: {id, value}});
-	};
-
-	const changeOscType = (e) => {
-		updateState({type: "CHANGE_OSC1_TYPE", payload: e.target.id});
-	};
+	let {type, detune, gain} = oscSettings;
 
 	return (
 		<div className="control">
-			<h2>osc 1</h2>
+			<h2>{title}</h2>
+
+			<div className="param">
+				<h3>gain</h3>
+				<input
+					onChange={changeOscSettings}
+					type="range"
+					value={gain}
+					id="gain"
+					max="1"
+					step="0.01"
+				/>
+			</div>
 
 			<div className="param">
 				<h3>detune</h3>
-				<input onChange={changeSettings} type="range" value={detune} id="detune" />
+				<input onChange={changeOscSettings} type="range" value={detune} id="detune" />
 			</div>
 
 			<div className="param">

@@ -22,15 +22,26 @@ export const reducer = (state, action) => {
 	let {id, value, note, freq} = action.payload || {};
 	switch (action.type) {
 		case "MAKE_OSC":
-			const newOsc = new Osc(
+			const newOsc1 = new Osc(
 				actx,
 				state.osc1Settings.type,
 				freq,
 				state.osc1Settings.detune,
 				state.envelopeSettings,
+				state.osc1Settings.gain,
 				gain1
 			);
-			nodes.push(newOsc);
+			const newOsc2 = new Osc(
+				actx,
+				state.osc2Settings.type,
+				freq,
+				state.osc2Settings.detune,
+				state.envelopeSettings,
+				state.osc2Settings.gain,
+				gain1
+			);
+			nodes.push(newOsc1);
+			nodes.push(newOsc2);
 			return {...state};
 		case "KILL_OSC":
 			let newNodes = [];
@@ -50,6 +61,13 @@ export const reducer = (state, action) => {
 			};
 		case "CHANGE_OSC1_TYPE":
 			return {...state, osc1Settings: {...state.osc1Settings, type: action.payload}};
+		case "CHANGE_OSC2":
+			return {
+				...state,
+				osc2Settings: {...state.osc2Settings, [action.payload.id]: action.payload.value},
+			};
+		case "CHANGE_OSC2_TYPE":
+			return {...state, osc2Settings: {...state.osc2Settings, type: action.payload}};
 		case "CHANGE_FILTER_SETTINGS":
 			filter[action.payload.id].value = action.payload.value;
 			return {
@@ -72,6 +90,12 @@ export const reducer = (state, action) => {
 export default function Store(props) {
 	const stateHook = useReducer(reducer, {
 		osc1Settings: {
+			gain: 1,
+			detune: 0,
+			type: "sine",
+		},
+		osc2Settings: {
+			gain: 1,
 			detune: 0,
 			type: "sine",
 		},
