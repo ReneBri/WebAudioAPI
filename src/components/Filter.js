@@ -1,7 +1,24 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 
-const Filter = ({changeSettings, changeType, settings}) => {
-	let {frequency, detune, Q, gain, type} = settings;
+import {CTX} from "../context/Store";
+
+const Filter = () => {
+	const [appState, updateState] = useContext(CTX);
+
+	let {frequency, detune, Q, gain, type} = appState.filterSettings;
+
+	const changeSettings = (e) => {
+		const {value, id} = e.target;
+
+		updateState({type: "CHANGE_FILTER_SETTINGS", payload: {id, value}});
+	};
+
+	const changeType = (e) => {
+		const {id} = e.target;
+
+		updateState({type: "CHANGE_FILTER_TYPE", payload: id});
+	};
+
 	const [disableQ, setDisableQ] = useState(false);
 	const [disableGain, setDisableGain] = useState(false);
 

@@ -6,6 +6,10 @@ body {
 
 .App {
 	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
 }
 
 .control {
@@ -40,4 +44,12 @@ body {
 		background-color: rgb(78, 19, 103);
 		color: white;
 	}
+}
+
+#keyboard ul {
+	width: 449px !important;
+}
+
+button:focus {
+	outline: 0;
 }

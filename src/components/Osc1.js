@@ -1,22 +1,27 @@
-const Osc1 = ({changeSettings, settings, changeOscType}) => {
+import {useContext} from "react";
+import {CTX} from "../context/Store";
+
+const Osc1 = () => {
+	const [appState, updateState] = useContext(CTX);
+
+	let {type, detune} = appState.osc1Settings;
+
+	const changeSettings = (e) => {
+		let {id, value} = e.target;
+		updateState({type: "CHANGE_OSC1", payload: {id, value}});
+	};
+
+	const changeOscType = (e) => {
+		updateState({type: "CHANGE_OSC1_TYPE", payload: e.target.id});
+	};
+
 	return (
 		<div className="control">
 			<h2>osc 1</h2>
-			<div className="param">
-				<h3>frequency</h3>
-				<input
-					onChange={changeSettings}
-					type="range"
-					max="5000"
-					value={settings.frequency}
-					id="frequency"
-					step="0.1"
-				/>
-			</div>
 
 			<div className="param">
 				<h3>detune</h3>
-				<input onChange={changeSettings} type="range" value={settings.detune} id="detune" />
+				<input onChange={changeSettings} type="range" value={detune} id="detune" />
 			</div>
 
 			<div className="param">
@@ -24,25 +29,25 @@ const Osc1 = ({changeSettings, settings, changeOscType}) => {
 				<button
 					id="sine"
 					onClick={changeOscType}
-					className={`${settings.type === "sine" && "active"}`}>
+					className={`${type === "sine" && "active"}`}>
 					Sine
 				</button>
 				<button
 					id="triangle"
 					onClick={changeOscType}
-					className={`${settings.type === "triangle" && "active"}`}>
+					className={`${type === "triangle" && "active"}`}>
 					Triangle
 				</button>
 				<button
 					id="sawtooth"
 					onClick={changeOscType}
-					className={`${settings.type === "sawtooth" && "active"}`}>
+					className={`${type === "sawtooth" && "active"}`}>
 					Sawtooth
 				</button>
 				<button
 					id="square"
 					onClick={changeOscType}
-					className={`${settings.type === "square" && "active"}`}>
+					className={`${type === "square" && "active"}`}>
 					Square
 				</button>
 			</div>
